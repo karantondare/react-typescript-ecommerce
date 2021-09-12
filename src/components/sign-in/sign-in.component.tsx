@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { CustomButtom } from '../custom-buttom/custom-buttom.component';
 
+import { CustomButtom } from '../custom-buttom/custom-buttom.component';
 import { FormInput } from '../form-input/form-input.component';
+import { signInWithGoogle } from '../../firebase/firebase.utils';
 import './sign-in.styles.scss';
 
 export const SignIn = () => {
   const [formState, setFormState] = useState({ email: '', password: '' });
-  console.log(formState);
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -43,7 +43,12 @@ export const SignIn = () => {
           handleChange={handleChange}
           required
         />
-        <CustomButtom type='submit'>Sign In</CustomButtom>
+        <div className='buttons'>
+          <CustomButtom type='submit'>Sign In</CustomButtom>
+          <CustomButtom isGoogleSignIn onClick={signInWithGoogle}>
+            Sign In With Google
+          </CustomButtom>
+        </div>
       </form>
     </div>
   );

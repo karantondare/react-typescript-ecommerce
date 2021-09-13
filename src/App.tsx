@@ -9,26 +9,34 @@ import { auth } from './firebase/firebase.utils';
 import './App.css';
 
 export interface UserState {
-  displayName: string;
-  email: string;
-  phoneNumber: null | number;
-  photoURL: string;
-  providerId: string;
-  uid: string;
+  displayName: null | undefined | string;
+  email: null | undefined | string;
+  phoneNumber: null | undefined | number | string;
+  photoURL: null | undefined | string;
+  uid: null | undefined | string;
 }
 
 function App() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<any>({
+    displayName: '',
+    email: '',
+    phoneNumber: null,
+    photoURL: '',
+    uid: '',
+  });
+
+  let unsubscribeFromAuth: () => void = () => {};
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
       setUser(user);
-
-      console.log(user);
     });
+  }, [user]);
 
+  useEffect(() => {
     unsubscribeFromAuth();
-  }, []);
+  }, [user]);
 
   return (
     <div>
